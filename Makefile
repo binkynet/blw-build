@@ -12,6 +12,8 @@ DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
 
+BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bnLocalWorker
+
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
 INITFSIMAGE := $(OUTPUTDIR)/uInitrd
@@ -53,9 +55,12 @@ $(DTBIMAGE): $(DEBS)
 	mkdir -p $(OUTPUTDIR)
 	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-4.14.51-sunxi/sun8i-h2-plus-orangepi-zero.dtb $(DTBIMAGE)
 
-$(INITFSIMAGE): $(UROOT)
+$(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 	mkdir -p $(BUILDDIR)/uroot
-	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) -format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio ./cmds/*
+	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
+		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
+		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
+		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
