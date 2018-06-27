@@ -18,7 +18,7 @@ BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bnLocalWorker
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
 INITFSIMAGE := $(OUTPUTDIR)/uInitrd
-DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(BOARD).dtd
+DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(BOARD).dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
 OUTPUTIMAGES := $(KERNELIMAGE) $(INITFSIMAGE) $(DTBIMAGE) $(BOOTSCR)
 
@@ -35,7 +35,7 @@ $(ARMBIANDIR):
 $(UROOT):
 	GOPATH=$(BUILDDIR) go get github.com/u-root/u-root
 
-$(DEBS): $(ARMBIANDIR)
+$(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
 	mkdir -p $(ARMBIANDIR)/userpatches
 	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
@@ -51,18 +51,14 @@ $(KERNELIMAGE): $(DEBS)
 	mkdir -p $(OUTPUTDIR)
 	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-sunxi $(KERNELIMAGE)
 
-$(DTBIMAGE): $(DEBS)
-	rm -Rf $(BUILDDIR)/unpacked/dtb
-	mkdir -p $(BUILDDIR)/unpacked/dtb
-	dpkg-deb -R $(DTBDEB) $(BUILDDIR)/unpacked/dtb
+$(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(OUTPUTDIR)
-	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-$(KERNELVERSION)-sunxi/sun8i-h2-plus-orangepi-zero.dtb $(DTBIMAGE)
+	dtc -I dts -O dtb -o $(DTBIMAGE) kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 
 $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 	mkdir -p $(BUILDDIR)/uroot
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
-		-files=$(BUILDDIR)/unpacked/image/lib/modules/:lib/modules \
 		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
 		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
