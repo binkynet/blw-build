@@ -3,11 +3,12 @@ BUILDDIR := $(ROOTDIR)/.build
 ARMBIANDIR := $(BUILDDIR)/armbian
 
 KERNELFAMILY := sunxi
-KERNELBRANCH := default
+KERNELBRANCH := next
+KERNELVERSION := 4.14.52
 BOARD := orangepizero
 
-IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_5.47_armhf.deb
-DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_5.47_armhf.deb
+IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_5.49_armhf.deb
+DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_5.49_armhf.deb
 DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
@@ -26,7 +27,7 @@ all: $(OUTPUTIMAGES)
 
 .PHONY: clean
 clean:
-	rm -Rf $(BUILDDIR)
+	sudo rm -Rf $(BUILDDIR)
 
 $(ARMBIANDIR):
 	git clone --depth 1 https://github.com/armbian/build $(ARMBIANDIR)
@@ -36,6 +37,8 @@ $(UROOT):
 
 $(DEBS): $(ARMBIANDIR)
 	mkdir -p $(ARMBIANDIR)/userpatches
+	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
+	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(ARMBIANDIR)/userpatches/linux-$(KERNELFAMILY)-$(KERNELBRANCH).config
 	$(ARMBIANDIR)/compile.sh BOARD=$(BOARD) BRANCH=next RELEASE=xenial \
 		KERNEL_ONLY=yes KERNEL_CONFIGURE=no KERNEL_KEEP_CONFIG=no \
@@ -46,19 +49,20 @@ $(KERNELIMAGE): $(DEBS)
 	mkdir -p $(BUILDDIR)/unpacked/image
 	dpkg-deb -R $(IMAGEDEB) $(BUILDDIR)/unpacked/image
 	mkdir -p $(OUTPUTDIR)
-	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-4.14.51-sunxi $(KERNELIMAGE)
+	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-sunxi $(KERNELIMAGE)
 
 $(DTBIMAGE): $(DEBS)
 	rm -Rf $(BUILDDIR)/unpacked/dtb
 	mkdir -p $(BUILDDIR)/unpacked/dtb
 	dpkg-deb -R $(DTBDEB) $(BUILDDIR)/unpacked/dtb
 	mkdir -p $(OUTPUTDIR)
-	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-4.14.51-sunxi/sun8i-h2-plus-orangepi-zero.dtb $(DTBIMAGE)
+	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-$(KERNELVERSION)-sunxi/sun8i-h2-plus-orangepi-zero.dtb $(DTBIMAGE)
 
 $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 	mkdir -p $(BUILDDIR)/uroot
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
+		-files=$(BUILDDIR)/unpacked/image/lib/modules/:lib/modules \
 		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
 		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)

@@ -1,0 +1,21 @@
+--- a/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts	2018-06-23 15:36:14.771762624 +0200
++++ dts/sun8i-h2-plus-orangepi-zero.dts	2018-06-27 08:58:53.637900182 +0200
+@@ -60,6 +60,7 @@
+ 		/* ethernet0 is the H3 emac, defined in sun8i-h3.dtsi */
+ 		ethernet0 = &emac;
+ 		ethernet1 = &xr819;
++		i2c0 = "/soc/i2c@01c2ac00";
+ 	};
+ 
+ 	chosen {
+@@ -133,6 +134,10 @@
+ 	status = "okay";
+ };
+ 
++$i2c0 {
++	status = "okay";
++};
++
+ &mmc0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&mmc0_pins_a>;
