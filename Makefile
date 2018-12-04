@@ -4,11 +4,11 @@ ARMBIANDIR := $(BUILDDIR)/armbian
 
 KERNELFAMILY := sunxi
 KERNELBRANCH := next
-KERNELVERSION := 4.14.52
+KERNELVERSION := 4.14.85
 BOARD := orangepizero
 
-IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_5.49_armhf.deb
-DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_5.49_armhf.deb
+IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_5.67_armhf.deb
+DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_5.67_armhf.deb
 DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
@@ -40,7 +40,7 @@ $(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
 	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(ARMBIANDIR)/userpatches/linux-$(KERNELFAMILY)-$(KERNELBRANCH).config
-	$(ARMBIANDIR)/compile.sh BOARD=$(BOARD) BRANCH=next RELEASE=xenial \
+	$(ARMBIANDIR)/compile.sh docker BOARD=$(BOARD) BRANCH=next RELEASE=xenial \
 		KERNEL_ONLY=yes KERNEL_CONFIGURE=no KERNEL_KEEP_CONFIG=no \
 		INSTALL_HEADERS=no BUILD_DESKTOP=no \
 
