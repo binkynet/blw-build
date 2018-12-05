@@ -60,6 +60,7 @@ $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
 		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
+		-defaultsh=/bin/bnLocalWorker \
 		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
 
