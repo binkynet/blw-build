@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-- sudo apt install gcc-arm-linux-gnueabi
+- sudo apt install gcc-arm-linux-gnueabi build-essential bison flex
 - sudo apt install u-boot-tools
 
 ## U-Boot dependencies
@@ -10,7 +10,7 @@
 On host machine:
 
 ```bash
-sudo apt install binutils-arm-none-eabi gcc-arm-none-eabi swig python-dev libusb-dev libusb-1.0 zlib1g-dev
+sudo apt install binutils-arm-none-eabi gcc-arm-none-eabi swig python-dev libusb-dev  libusb-1.0-0-dev zlib1g-dev
 ```
 
 ## Building U-Boot

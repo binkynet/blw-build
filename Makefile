@@ -7,8 +7,8 @@ KERNELBRANCH := next
 KERNELVERSION := 4.14.85
 BOARD := orangepizero
 
-IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_5.67_armhf.deb
-DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_5.67_armhf.deb
+IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_20.11.0-trunk_armhf.deb
+DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_20.11.0-trunk_armhf.deb
 DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
