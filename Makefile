@@ -61,6 +61,7 @@ $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
 		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
 		-defaultsh=/bin/bnLocalWorker \
+		-initcmd=/bin/bnLocalWorker \
 		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
 
