@@ -4,7 +4,7 @@ ARMBIANDIR := $(BUILDDIR)/armbian
 
 KERNELFAMILY := sunxi
 KERNELBRANCH := next
-KERNELVERSION := 4.14.85
+KERNELVERSION := 5.4.69
 BOARD := orangepizero
 
 IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_20.11.0-trunk_armhf.deb
