@@ -13,7 +13,7 @@ DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
 
-BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bnLocalWorker
+BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bin/linux/arm/bnLocalWorker
 
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
