@@ -55,7 +55,11 @@ $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(OUTPUTDIR)
 	dtc -I dts -O dtb -o $(DTBIMAGE) kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 
-$(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
+$(BUILDDIR)/k3os-root.cpio:
+	cd $(BUILDDIR) && wget https://github.com/rancher/k3os/releases/download/v0.11.1/k3os-rootfs-arm.tar.gz
+	bsdtar --format=cpio -cf - @$(BUILDDIR)/k3os-rootfs-arm.tar.gz > $(BUILDDIR)/k3os-root.cpio
+
+$(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os-root.cpio
 	mkdir -p $(BUILDDIR)/uroot
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
@@ -63,7 +67,8 @@ $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER)
 		-defaultsh=/bin/bnLocalWorker \
 		-initcmd=/bin/bnLocalWorker \
 		./cmds/*
-	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
+#	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
+	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/k3os-root.cpio $(INITFSIMAGE)
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot.cmd $(BOOTSCR)
