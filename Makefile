@@ -17,10 +17,11 @@ BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bin/linux/arm/bnLocalWorker
 
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
-INITFSIMAGE := $(OUTPUTDIR)/uInitrd
+INITFSIMAGEBLW := $(OUTPUTDIR)/uInitrd-blw
+INITFSIMAGEK3S := $(OUTPUTDIR)/uInitrd-k3s
 DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(BOARD).dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
-OUTPUTIMAGES := $(KERNELIMAGE) $(INITFSIMAGE) $(DTBIMAGE) $(BOOTSCR)
+OUTPUTIMAGES := $(KERNELIMAGE) $(INITFSIMAGEBLW) $(INITFSIMAGEK3S) $(DTBIMAGE) $(BOOTSCR)
 
 .PHONY: all
 all: $(OUTPUTIMAGES)
@@ -61,22 +62,25 @@ $(BUILDDIR)/k3os-root.cpio:
 	tar zxvf $(BUILDDIR)/k3os-rootfs-arm.tar.gz -C $(BUILDDIR)/k3os --strip-components=1
 	cd $(BUILDDIR)/k3os && find . print | cpio -ocv --owner=root.root > $(BUILDDIR)/k3os-root.cpio
 
-$(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os-root.cpio
+$(INITFSIMAGEBLW): $(UROOT) $(BNLOCALWORKER)
 	mkdir -p $(BUILDDIR)/uroot
-#	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
-#		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
-#		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
-#		-defaultsh=/bin/bnLocalWorker \
-#		-initcmd=/bin/bnLocalWorker \
-#		./cmds/*
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
+		-files=$(BNLOCALWORKER):bin/bnLocalWorker \
+		-defaultsh=/bin/bnLocalWorker \
+		-initcmd=/bin/bnLocalWorker \
+		./cmds/*
+	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
+
+$(INITFSIMAGEK3S): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os/k3os/system/k3os/current/k3os
+	mkdir -p $(BUILDDIR)/uroot
+	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
+		-format=cpio -build=bb -o $(BUILDDIR)/k3os/uroot.cpio \
 		-files=$(BUILDDIR)/k3os/k3os/system/k3os/current/k3os:sbin/k3os \
 		-defaultsh=/sbin/k3os \
 		-initcmd=/sbin/k3os \
 		./cmds/*
-	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
-#	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/k3os-root.cpio $(INITFSIMAGE)
+	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/k3os/uroot.cpio $(INITFSIMAGEK3S)
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot.cmd $(BOOTSCR)
