@@ -71,7 +71,7 @@ $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os-root.cpio
 #		./cmds/*
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/uroot/uroot.cpio \
-		-files=$(BUILDDIR)/k3os/system/k3os/current/k3os:sbin/k3os \
+		-files=$(BUILDDIR)/k3os/k3os/system/k3os/current/k3os:sbin/k3os \
 		-defaultsh=/sbin/k3os \
 		-initcmd=/sbin/k3os \
 		./cmds/*
