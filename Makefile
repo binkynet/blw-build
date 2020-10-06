@@ -58,7 +58,7 @@ $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 $(BUILDDIR)/k3os-root.cpio:
 	cd $(BUILDDIR) && wget https://github.com/rancher/k3os/releases/download/v0.11.1/k3os-rootfs-arm.tar.gz
 	gunzip $(BUILDDIR)/k3os-rootfs-arm.tar.gz
-	bsdtar --format=cpio -cf - @$(BUILDDIR)/k3os-rootfs-arm.tar > $(BUILDDIR)/k3os-root.cpio
+	bsdtar --strip-components=1 --format=cpio -cf - @$(BUILDDIR)/k3os-rootfs-arm.tar > $(BUILDDIR)/k3os-root.cpio
 
 $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os-root.cpio
 	mkdir -p $(BUILDDIR)/uroot
