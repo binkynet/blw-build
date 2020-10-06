@@ -70,7 +70,7 @@ $(INITFSIMAGEBLW): $(UROOT) $(BNLOCALWORKER)
 		-defaultsh=/bin/bnLocalWorker \
 		-initcmd=/bin/bnLocalWorker \
 		./cmds/*
-	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGE)
+	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/uroot/uroot.cpio $(INITFSIMAGEBLW)
 
 $(INITFSIMAGEK3S): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os/k3os/system/k3os/current/k3os
 	mkdir -p $(BUILDDIR)/uroot
