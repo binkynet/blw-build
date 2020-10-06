@@ -59,7 +59,7 @@ $(BUILDDIR)/k3os-root.cpio:
 	mkdir -p $(BUILDDIR)/k3os
 	cd $(BUILDDIR) && wget https://github.com/rancher/k3os/releases/download/v0.11.1/k3os-rootfs-arm.tar.gz
 	tar zxvf $(BUILDDIR)/k3os-rootfs-arm.tar.gz -C $(BUILDDIR)/k3os --strip-components=1
-	cd $(BUILDDIR)/k3os && find . print > cpio -ocv --owner=root.root > $(BUILDDIR)/k3os-root.cpio
+	cd $(BUILDDIR)/k3os && find . print | cpio -ocv --owner=root.root > $(BUILDDIR)/k3os-root.cpio
 
 $(INITFSIMAGE): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os-root.cpio
 	mkdir -p $(BUILDDIR)/uroot
