@@ -77,8 +77,8 @@ $(INITFSIMAGEK3S): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os/k3os/system/k3os/c
 	cd $(BUILDDIR)/src/github.com/u-root/u-root && GOPATH=$(BUILDDIR) GOARCH=arm $(UROOT) \
 		-format=cpio -build=bb -o $(BUILDDIR)/k3os/uroot.cpio \
 		-files=$(BUILDDIR)/k3os/k3os/system/k3os/current/k3os:sbin/k3os \
-		-defaultsh=/sbin/k3os \
-		-initcmd=/sbin/k3os \
+		-defaultsh="" \
+		-uinitcmd=/sbin/k3os \
 		./cmds/*
 	mkimage -A arm -O linux -T ramdisk -d $(BUILDDIR)/k3os/uroot.cpio $(INITFSIMAGEK3S)
 
