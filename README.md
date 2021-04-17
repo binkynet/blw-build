@@ -18,8 +18,9 @@ sudo apt install binutils-arm-none-eabi gcc-arm-none-eabi swig python-dev libusb
 On host machine:
 
 ```bash
-git clone git@github.com:u-boot/u-boot.git
+git clone git@github.com:binkynet/u-boot.git
 cd u-boot
+git checkout tzl
 export ARCH=arm
 export CROSS_COMPILE=arm-none-eabi-
 make orangepi_zero_defconfig
