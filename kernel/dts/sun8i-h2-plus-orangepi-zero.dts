@@ -932,7 +932,7 @@
 			resets = <0x6 0x32>;
 			dmas = <0x1e 0x7 0x1e 0x7>;
 			dma-names = "rx", "tx";
-			status = "disabled";
+			status = "okay";
 			pinctrl-names = "default";
 			pinctrl-0 = <0x23>;
 			linux,phandle = <0x64>;
@@ -949,7 +949,7 @@
 			resets = <0x6 0x33>;
 			dmas = <0x1e 0x8 0x1e 0x8>;
 			dma-names = "rx", "tx";
-			status = "disabled";
+			status = "okay";
 			pinctrl-names = "default";
 			pinctrl-0 = <0x24>;
 			linux,phandle = <0x65>;
