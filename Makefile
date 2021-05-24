@@ -21,6 +21,7 @@ INITFSIMAGEBLW := $(OUTPUTDIR)/uInitrd-blw
 INITFSIMAGEK3S := $(OUTPUTDIR)/uInitrd-k3s
 DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(BOARD).dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
+BOOTDCCSCR := $(OUTPUTDIR)/boot-dcc.scr.uimg
 OUTPUTIMAGES := $(KERNELIMAGE) $(INITFSIMAGEBLW) $(INITFSIMAGEK3S) $(DTBIMAGE) $(BOOTSCR)
 
 .PHONY: all
@@ -84,3 +85,6 @@ $(INITFSIMAGEK3S): $(UROOT) $(BNLOCALWORKER) $(BUILDDIR)/k3os/k3os/system/k3os/c
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot.cmd $(BOOTSCR)
+
+$(BOOTDCCSCR): $(ROOTDIR)/boot/boot-dcc.cmd
+	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot-dcc.cmd $(BOOTDCCSCR)
