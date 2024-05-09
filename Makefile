@@ -44,7 +44,7 @@ $(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
 	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(ARMBIANDIR)/userpatches/linux-$(KERNELFAMILY)-$(KERNELBRANCH).config
-	$(ARMBIANDIR)/compile.sh docker \
+	$(ARMBIANDIR)/compile.sh \
 		BOARD=$(ARMBIAN_BOARD) BRANCH=$(ARMBIAN_BRANCH) RELEASE=$(ARMBIAN_RELEASE) \
 		BUILD_MINIMAL=yes \
 		KERNEL_CONFIGURE=no \
