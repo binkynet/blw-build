@@ -68,4 +68,4 @@ $(BOOTDCCSCR): $(ROOTDIR)/boot/boot-dcc.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot-dcc.cmd $(BOOTDCCSCR)
 
 $(TGZFILE): $(OUTPUTIMAGES)
-	tar zcvf $(TGZFILE) -C $(OUTPUTDIR) --transform='s!^$(OUTPUTDIR)!!' $(OUTPUTIMAGES)
+	tar zcvf $(TGZFILE) -C $(OUTPUTDIR) --transform='s!^$(OUTPUTDIR)/!!' $(OUTPUTIMAGES)
