@@ -7,7 +7,7 @@ KERNELBRANCH := next
 KERNELVERSION := 5.4.69
 ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
-ARMBIAN_RELEASE := yammy
+ARMBIAN_RELEASE := jammy
 
 IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_20.11.0-trunk_armhf.deb
 DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_20.11.0-trunk_armhf.deb
