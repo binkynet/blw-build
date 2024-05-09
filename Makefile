@@ -3,8 +3,8 @@ BUILDDIR := $(ROOTDIR)/.build
 ARMBIANDIR := $(BUILDDIR)/armbian
 
 KERNELFAMILY := sunxi
-KERNELBRANCH := next
-KERNELVERSION := 5.4.69
+KERNELBRANCH := current
+KERNELVERSION := 6.1.63
 ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
 ARMBIAN_RELEASE := jammy
@@ -56,7 +56,7 @@ $(KERNELIMAGE): $(DEBS)
 	mkdir -p $(BUILDDIR)/unpacked/image
 	dpkg-deb -R $(IMAGEDEB) $(BUILDDIR)/unpacked/image
 	mkdir -p $(OUTPUTDIR)
-	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-sunxi $(KERNELIMAGE)
+	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi $(KERNELIMAGE)
 
 $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(OUTPUTDIR)
