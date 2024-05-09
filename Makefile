@@ -9,8 +9,9 @@ ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
 ARMBIAN_RELEASE := jammy
 
-IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-next-sunxi_20.11.0-trunk_armhf.deb
-DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-next-sunxi_20.11.0-trunk_armhf.deb
+DEBSUFFIX := sunxi_23.11.0-trunk_armhf__6.1.63-S69e4-Df461-Paef8-C88f1Hfe66-HK01ba-V014b-B1743-R448a
+IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-current-$(DEBSUFFIX).deb
+DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-current-$(DEBSUFFIX).deb
 DEBS := $(IMAGEDEB) $(DTBDEB)
 
 UROOT := $(BUILDDIR)/bin/u-root
