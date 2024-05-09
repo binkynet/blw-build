@@ -24,9 +24,10 @@ DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(ARMBIAN_BOARD).dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
 BOOTDCCSCR := $(OUTPUTDIR)/boot-dcc.scr.uimg
 OUTPUTIMAGES := $(KERNELIMAGE) $(DTBIMAGE) $(BOOTSCR) $(BOOTDCCSCR)
+TGZFILE := $(OUTPUTDIR)/blw.tgz
 
 .PHONY: all
-all: $(OUTPUTIMAGES)
+all: $(TGZFILE) 
 
 .PHONY: clean
 clean:
@@ -65,3 +66,6 @@ $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 
 $(BOOTDCCSCR): $(ROOTDIR)/boot/boot-dcc.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot-dcc.cmd $(BOOTDCCSCR)
+
+$(TGZFILE): $(OUTPUTIMAGES)
+	tar zcvf $(TGZFILE) $(OUTPUTIMAGES)
