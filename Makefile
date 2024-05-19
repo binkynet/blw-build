@@ -5,7 +5,7 @@ ARMBIANDIR := $(BUILDDIR)/armbian
 KERNELFAMILY := sunxi
 KERNELBRANCH := current
 KERNELVERSION := 6.6.31
-ARMBIAN_BRANCH := e5be2d489d9120dc3668a1b40037c11f37598ef1
+ARMBIAN_COMMIT := e5be2d489d9120dc3668a1b40037c11f37598ef1
 ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
 ARMBIAN_RELEASE := jammy
@@ -36,7 +36,8 @@ clean:
 	sudo rm -Rf $(BUILDDIR)
 
 $(ARMBIANDIR):
-	git clone --depth 1 --branch=$(ARMBIAN_BRANCH) https://github.com/armbian/build $(ARMBIANDIR)
+	git clone https://github.com/armbian/build $(ARMBIANDIR)
+	cd $(ARMBIANDIR) ; git checkout $(ARMBIAN_COMMIT)
 
 $(UROOT):
 	GOPATH=$(BUILDDIR) go get github.com/u-root/u-root
