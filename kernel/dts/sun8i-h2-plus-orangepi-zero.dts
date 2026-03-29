@@ -784,10 +784,12 @@
 			linux,phandle = <0x5b>;
 			phandle = <0x5b>;
 
-            spidev@0 {
-                compatible = "rohm,dh2228fv"; /* A common generic spidev identifier */
-                reg = <0>; /* Chip Select 0 */
-                spi-max-frequency = <10000000>;
+            flash@0 {
+                #address-cells = <0x1>;
+                #size-cells = <0x1>;
+                compatible = "mxicy,mx25l1606e", "winbond,w25q128";
+                reg = <0x0>;
+                spi-max-frequency = <0x2625a00>;
             };
         };
 
@@ -802,11 +804,17 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <0x20>;
 			resets = <0x6 0x10>;
-			status = "disabled";
+			status = "okay";
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			linux,phandle = <0x5c>;
 			phandle = <0x5c>;
+
+            spidev@0 {
+                compatible = "rohm,dh2228fv"; /* A common generic spidev identifier */
+                reg = <0>; /* Chip Select 0 */
+                spi-max-frequency = <10000000>;
+            };
 		};
 
 		watchdog@01c20ca0 {
