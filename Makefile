@@ -61,7 +61,10 @@ $(KERNELIMAGE): $(DEBS)
 
 $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(OUTPUTDIR)
-	dtc -I dts -O dtb -o $(DTBIMAGE) kernel/dts/sun8i-h2-plus-orangepi-zero.dts
+	gcc -E -nostdinc -I $(ROOTDIR)/kernel/dts -I $(ROOTDIR)/kernel/includes -x assembler-with-cpp \
+        $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts | \
+        dtc -I dts -O dtb -o $(DTBIMAGE) -
+	#dtc -I dts -O dtb -o $(DTBIMAGE) kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot.cmd $(BOOTSCR)
