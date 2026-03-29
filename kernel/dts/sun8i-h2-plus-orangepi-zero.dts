@@ -241,7 +241,7 @@
 	resets = <&ccu RST_BUS_EPHY>;
 	status = "okay";
 };
-
+*/
 &pio {
     /* Port A (Ethernet/SPI) needs 3.3V */
     vcc-pa-supply = <&reg_vcc3v3>;
@@ -250,7 +250,7 @@
     /* Port G (UART1/USB) needs 3.3V */
     vcc-pg-supply = <&reg_vcc3v3>;
 };
-*/
+
 &emac {
 	phy-handle = <&int_mii_phy>;
 	phy-mode = "mii";
