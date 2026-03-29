@@ -264,3 +264,23 @@
 };
 
 &reg_vcc_wifi { status = "disabled"; };
+
+leds {
+	compatible = "gpio-leds";
+
+	/* The Green LED is on the R_PIO bank (PL10) */
+	/* This is safe and will not conflict with SPI1 */
+	pwr_led {
+		label = "orangepi:green:pwr";
+		gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
+		default-state = "on";
+	};
+
+	/* The Red LED is on PA17 */
+	/* PA17 is safe as SPI1 uses PA13-PA16 */
+	status_led {
+		label = "orangepi:red:status";
+		gpios = <&pio 0 17 GPIO_ACTIVE_HIGH>;
+		default-state = "off";
+	};
+};
