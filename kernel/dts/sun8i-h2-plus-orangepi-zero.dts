@@ -159,7 +159,7 @@
 	mmc-pwrseq = <&wifi_pwrseq>;
 	bus-width = <4>;
 	non-removable;
-	status = "okay";
+	status = "disabled"; /*was okay*/
 
 	/*
 	 * Explicitly define the sdio device, so that we can add an ethernet
@@ -261,3 +261,6 @@
 	regulator-boot-on;
 	status = "okay";
 };
+
+&mmc1 { status = "disabled"; };
+&reg_vcc_wifi { status = "disabled"; };
