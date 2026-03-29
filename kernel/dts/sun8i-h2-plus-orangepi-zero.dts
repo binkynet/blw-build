@@ -237,12 +237,11 @@
 	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
 };
 
-/*&int_mii_phy {
+&int_mii_phy {
 	clocks = <&ccu CLK_BUS_EPHY>;
 	resets = <&ccu RST_BUS_EPHY>;
 	status = "okay";
 };
-*/
 
 &pio {
 	vcc-pa-supply = <&reg_vcc3v3>;
@@ -253,18 +252,6 @@
 
 &r_pio {
 	vcc-pl-supply = <&reg_vcc3v3>;
-};
-
-&emac {
-	phy-handle = <&int_mii_phy>;
-	phy-mode = "mii";
-	allwinner,leds-active-low;
-	status = "okay";
-};
-
-/* Link the internal PHY correctly */
-&int_mii_phy {
-	status = "okay";
 };
 
 /* Satisfaction for the dummy regulators you see in the log */
