@@ -142,8 +142,9 @@
 &emac {
 	phy-handle = <&int_mii_phy>;
 	phy-mode = "mii";
-	allwinner,leds-active-low;
 	status = "okay";
+    /* Try disabling the external LED pins to free up Port A */
+	/delete-property/ allwinner,leds-active-low;
 };
 
 &mmc0 {
