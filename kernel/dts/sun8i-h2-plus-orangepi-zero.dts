@@ -140,6 +140,7 @@
 };
 
 &emac {
+    syscon = <&syscon>;
 	phy-handle = <&int_mii_phy>;
 	phy-mode = "mii";
 	status = "okay";
@@ -262,5 +263,4 @@
 	status = "okay";
 };
 
-&mmc1 { status = "disabled"; };
 &reg_vcc_wifi { status = "disabled"; };
