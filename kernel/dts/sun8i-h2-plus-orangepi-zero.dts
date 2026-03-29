@@ -242,13 +242,16 @@
 	status = "okay";
 };
 */
+
 &pio {
-    /* Port A (Ethernet/SPI) needs 3.3V */
-    vcc-pa-supply = <&reg_vcc3v3>;
-    /* Port C (SPI0) needs 3.3V */
-    vcc-pc-supply = <&reg_vcc3v3>;
-    /* Port G (UART1/USB) needs 3.3V */
-    vcc-pg-supply = <&reg_vcc3v3>;
+	vcc-pa-supply = <&reg_vcc3v3>;
+	vcc-pc-supply = <&reg_vcc3v3>;
+	vcc-pf-supply = <&reg_vcc3v3>;
+	vcc-pg-supply = <&reg_vcc3v3>;
+};
+
+&r_pio {
+	vcc-pl-supply = <&reg_vcc3v3>;
 };
 
 &emac {
@@ -267,4 +270,5 @@
 &reg_vcc3v3 {
 	regulator-always-on;
 	regulator-boot-on;
+	status = "okay";
 };
