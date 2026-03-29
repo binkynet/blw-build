@@ -144,7 +144,6 @@
 	allwinner,leds-active-low;
 	status = "okay";
 };
-/* The internal PHY node usually lives inside the &mdio bus in the dtsi */
 
 &mmc0 {
 	vmmc-supply = <&reg_vcc3v3>;
@@ -235,4 +234,13 @@
 	 */
 	status = "okay";
 	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+};
+
+&mdio {
+	int_mii_phy: ethernet-phy@1 {
+		compatible = "ethernet-phy-ieee802.3-c22";
+		reg = <1>;
+		clocks = <&ccu CLK_BUS_EPHY>;
+		resets = <&ccu RST_BUS_EPHY>;
+	};
 };
