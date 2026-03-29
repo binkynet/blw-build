@@ -1,6 +1,7 @@
 ROOTDIR := $(shell pwd)
 BUILDDIR := $(ROOTDIR)/.build
 ARMBIANDIR := $(BUILDDIR)/armbian
+KERNELDIR := $(ARMBIANDIR)/cache/sources/linux-kernel-worktree/6.12__sunxi__armhf
 
 KERNELFAMILY := sunxi
 KERNELBRANCH := current
@@ -62,7 +63,8 @@ $(KERNELIMAGE): $(DEBS)
 $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(OUTPUTDIR)
 	gcc -E -nostdinc \
-	    -I $(ARMBIANDIR)/cache/sources/linux-kernel-worktree/6.12__sunxi__armhf/arch/arm/boot/dts/allwinner \
+	    -I $(KERNELDIR)/arch/arm/boot/dts/allwinner \
+	    -I $(KERNELDIR)/include \
 		-I $(ROOTDIR)/kernel/dts \
 	    -I $(ROOTDIR)/kernel/includes \
 		-x assembler-with-cpp \
