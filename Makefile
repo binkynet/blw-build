@@ -11,7 +11,7 @@ ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
 ARMBIAN_RELEASE := jammy
 
-DEBSUFFIX := sunxi_26.02.0-trunk_armhf__6.12.79-Sc2d1-Da8d3-P7ecf-C2328-H9b8e-HK01ba-V014b-Bcbc7-R448a
+DEBSUFFIX := sunxi_26.02.0-trunk_armhf__6.12.79-Sc2d1-Da8d3-P7ecf-Cae6c-H9b8e-HK01ba-V014b-Bcbc7-R448a
 IMAGEDEB := $(ARMBIANDIR)/output/debs/linux-image-current-$(DEBSUFFIX).deb
 DTBDEB := $(ARMBIANDIR)/output/debs/linux-dtb-current-$(DEBSUFFIX).deb
 DEBS := $(IMAGEDEB) $(DTBDEB)
