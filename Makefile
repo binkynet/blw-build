@@ -43,10 +43,11 @@ $(UROOT):
 	GOPATH=$(BUILDDIR) go get github.com/u-root/u-root
 
 $(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
-	mkdir -p $(ARMBIANDIR)/userpatches
+	mkdir -p $(ARMBIANDIR)/userpatches/dts
 	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(ARMBIANDIR)/userpatches/linux-$(KERNELFAMILY)-$(KERNELBRANCH).config
+	cp $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts $(ARMBIANDIR)/userpatches/dts/sun8i-h2-plus-orangepi-zero.dts
 	$(ARMBIANDIR)/compile.sh kernel \
 		BOARD=$(ARMBIAN_BOARD) BRANCH=$(ARMBIAN_BRANCH) RELEASE=$(ARMBIAN_RELEASE) \
 		BUILD_MINIMAL=yes \
