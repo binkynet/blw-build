@@ -549,6 +549,10 @@
 			compatible = "allwinner,sun8i-h3-pinctrl";
 			linux,phandle = <0x14>;
 			phandle = <0x14>;
+			vcc-pa-supply = <0x13>;
+            vcc-pd-supply = <0x13>; // Critical for Ethernet Pins
+            vcc-pf-supply = <0x13>;
+            vcc-pg-supply = <0x13>;
 
 			emac0 {
 				pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD7", "PD8", "PD9", "PD10", "PD12", "PD13", "PD15", "PD16", "PD17";
@@ -721,6 +725,7 @@
 			status = "okay";
 			phy-handle = <0x1c>;
 			phy-mode = "mii";
+			phy-supply = <0x13>; // Points to vcc3v3
 			allwinner,leds-active-low;
 			linux,phandle = <0x58>;
 			phandle = <0x58>;
@@ -1430,6 +1435,8 @@
 		regulator-name = "vcc3v3";
 		regulator-min-microvolt = <0x325aa0>;
 		regulator-max-microvolt = <0x325aa0>;
+		regulator-always-on; // Add this
+        regulator-boot-on;   // Add this
 		linux,phandle = <0x13>;
 		phandle = <0x13>;
 	};
