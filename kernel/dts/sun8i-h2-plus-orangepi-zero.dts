@@ -198,7 +198,8 @@
 &spi1 {
     pinctrl-names = "default";
     pinctrl-0 = <&spi1_pins>; /* CRITICAL: Connects the logic to the pins */
-    status = "okay";
+    /*status = "okay";*/
+    status = "disabled";
     #address-cells = <1>;
     #size-cells = <0>;
 
