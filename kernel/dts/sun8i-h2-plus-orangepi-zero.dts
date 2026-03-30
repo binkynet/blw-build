@@ -147,6 +147,8 @@
 	status = "okay";
     /* Try disabling the external LED pins to free up Port A */
 	/delete-property/ allwinner,leds-active-low;
+    /* Force the internal PHY to use the internal MDIO bus */
+    /delete-property/ mdio;
 };
 
 &mmc0 {
@@ -214,14 +216,10 @@
 };
 
 &uart1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart1_pins>;
 	status = "disabled";
 };
 
 &uart2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart2_pins>;
 	status = "disabled";
 };
 
