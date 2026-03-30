@@ -804,7 +804,7 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <0x20>;
 			resets = <0x6 0x10>;
-			status = "disabled";
+			status = "okay";
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			linux,phandle = <0x5c>;
