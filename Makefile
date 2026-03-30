@@ -62,8 +62,13 @@ $(KERNELIMAGE): $(DEBS)
 	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi $(KERNELIMAGE)
 
 $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
+	rm -Rf $(BUILDDIR)/unpacked/dtb
+	mkdir -p $(BUILDDIR)/unpacked/dtb
+	dpkg-deb -R $(DTBDEB) $(BUILDDIR)/unpacked/dtb
 	mkdir -p $(OUTPUTDIR)
-	dtc -I dts -O dtb -o $(DTBIMAGE) $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
+	cp $(BUILDDIR)/unpacked/dtb/boot/vmlinuz-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi $(KERNELIMAGE)
+	#mkdir -p $(OUTPUTDIR)
+	#dtc -I dts -O dtb -o $(DTBIMAGE) $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 
 $(BOOTSCR): $(ROOTDIR)/boot/boot.cmd
 	mkimage -C none -A arm -T script -d $(ROOTDIR)/boot/boot.cmd $(BOOTSCR)
