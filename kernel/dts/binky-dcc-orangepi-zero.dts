@@ -16,6 +16,10 @@
     status = "okay";
 };
 
+&uart1 {
+    status = "disabled";
+};
+
 /* --- Ethernet --- */
 &emac {
     /* We use the label 'int_mii_phy' which is already defined in the dtsi */
