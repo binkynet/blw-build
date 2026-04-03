@@ -5,7 +5,7 @@ KERNELDIR := $(BUILDDIR)/kernel
 KERNELVERSION := v6.18.21
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
-DTBIMAGE := $(OUTPUTDIR)/binky-dcc-orangepi-zero.dtb
+DTBIMAGE := $(OUTPUTDIR)/sun8i-h2-plus-custom.dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
 BOOTDCCSCR := $(OUTPUTDIR)/boot-dcc.scr.uimg
 OUTPUTIMAGES := $(KERNELIMAGE) $(DTBIMAGE) $(BOOTSCR) $(BOOTDCCSCR)
@@ -28,6 +28,9 @@ $(KERNELDIR):
 compile: $(KERNELDIR)
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(KERNELDIR)/.config
 	cp $(ROOTDIR)/kernel/dts/binky-dcc-orangepi-zero.dts $(KERNELDIR)/arch/arm/boot/dts/sun8i-h2-plus-custom.dts
+	# Remove the old compiled DTB and the processed DTS
+	rm -f $(KERNELDIR)/arch/arm/boot/dts/sun8i-h2-plus-custom.dtb
+	rm -f $(KERNELDIR)/arch/arm/boot/dts/.sun8i-h2-plus-custom.dtb.dts.tmp
 	cd $(KERNELDIR) ; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- olddefconfig
 	cd $(KERNELDIR) ; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc) zImage dtbs modules sun8i-h2-plus-custom.dtb
 
