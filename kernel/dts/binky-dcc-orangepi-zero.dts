@@ -1,37 +1,64 @@
 /dts-v1/;
-#include "allwinner/sun8i-h3.dtsi"       // This provides the CPU frequencies and EMAC/SPI/UART definitions
-#include "allwinner/sunxi-common-regulators.dtsi"
+#include "allwinner/sun8i-h3.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
 
 / {
-    model = "BinkyDCC Orange Pi Zero v0.0.1";
-    compatible = "alwinner,sun8i-h2-plus";
+    model = "BinkyDCC Orange Pi Zero v0.0.2";
+    compatible = "allwinner,sun8i-h2-plus";
 
-    /* ... your aliases and chosen nodes ... */
+    aliases {
+        serial0 = &uart0;
+        ethernet0 = &emac;
+        spi1 = &spi1;
+    };
+
+    chosen {
+        stdout-path = "serial0:115200n8";
+    };
+
+    /* This provides the 3.3V power needed for pins/ethernet */
+    reg_vcc_io: vcc3v3 {
+        compatible = "regulator-fixed";
+        regulator-name = "vcc-io";
+        regulator-min-microvolt = <3300000>;
+        regulator-max-microvolt = <3300000>;
+        regulator-always-on;
+    };
 };
 
-/* --- UART0 --- */
 &uart0 {
     pinctrl-names = "default";
     pinctrl-0 = <&uart0_pa_pins>;
     status = "okay";
 };
 
-&uart1 {
-    status = "disabled";
-};
-
-/* --- Ethernet --- */
 &emac {
-    /* We use the label 'int_mii_phy' which is already defined in the dtsi */
     phy-handle = <&int_mii_phy>;
     phy-mode = "mii";
     allwinner,leds-active-low;
     status = "okay";
 };
 
-/* --- SPI1 --- */
+/* The internal PHY needs to be enabled here */
+&mdio {
+    status = "okay";
+    int_mii_phy: ethernet-phy@1 {
+        compatible = "ethernet-phy-ieee802.3-c22";
+        reg = <1>;
+        clocks = <&ccu 40>; /* CLK_BUS_EPHY */
+        resets = <&ccu 22>; /* RST_BUS_EPHY */
+    };
+};
+
 &spi1 {
     status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&spi1_pins>;
+
+    spidev@0 {
+        compatible = "rohm,dh2228fv";
+        reg = <0>;
+        spi-max-frequency = <10000000>;
+    };
 };
