@@ -43,11 +43,12 @@ $(UROOT):
 	GOPATH=$(BUILDDIR) go get github.com/u-root/u-root
 
 $(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
-	mkdir -p $(ARMBIANDIR)/userpatches/dts
-	#mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
-	#cp $(ROOTDIR)/kernel/patches/* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
+	# Prepare custom DTS
+	mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
+	cp $(ROOTDIR)/kernel/dts/binky-dcc-orangepi-zero.* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
+	# Prepare kernel config
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(ARMBIANDIR)/userpatches/linux-$(KERNELFAMILY)-$(KERNELBRANCH).config
-	cp $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts $(ARMBIANDIR)/userpatches/dts/sun8i-h2-plus-orangepi-zero.dts
+	# Compile kernel
 	$(ARMBIANDIR)/compile.sh kernel \
 		BOARD=$(ARMBIAN_BOARD) BRANCH=$(ARMBIAN_BRANCH) RELEASE=$(ARMBIAN_RELEASE) \
 		BUILD_MINIMAL=yes \
@@ -66,7 +67,7 @@ $(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 	mkdir -p $(BUILDDIR)/unpacked/dtb
 	dpkg-deb -R $(DTBDEB) $(BUILDDIR)/unpacked/dtb
 	mkdir -p $(OUTPUTDIR)
-	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi/sun8i-h2-plus-orangepi-zero.dtb $(DTBIMAGE)
+	cp $(BUILDDIR)/unpacked/dtb/boot/dtb-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi/binky-dcc-orangepi-zero.dtb $(DTBIMAGE)
 	#mkdir -p $(OUTPUTDIR)
 	#dtc -I dts -O dtb -o $(DTBIMAGE) $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
 

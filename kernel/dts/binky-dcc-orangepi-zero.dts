@@ -4,7 +4,7 @@
 	interrupt-parent = <0x1>;
 	#address-cells = <0x1>;
 	#size-cells = <0x1>;
-	model = "DCC Orange Pi Zero";
+	model = "BinkyDCC Orange Pi Zero";
 	compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h2-plus";
 
 	sound {

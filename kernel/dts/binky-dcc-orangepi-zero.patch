@@ -1,0 +1,6 @@
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -XXX,X +XXX,X @@
+ 	sun8i-h2-plus-orangepi-zero.dtb \
++	binky-dcc-orangepi-zero.dtb \
+ 	sun8i-h3-bananapi-m2-plus.dtb \
