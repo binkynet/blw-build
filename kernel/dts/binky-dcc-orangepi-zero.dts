@@ -6,7 +6,7 @@
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.3";
-    compatible = "allwinner,sun8i-h2-plus", "allwinner,sun8i-h3";
+    compatible = "allwinner,sun8i-h3";
 
     aliases {
         serial0 = &uart0;
@@ -50,4 +50,8 @@
         reg = <0>;
         spi-max-frequency = <10000000>;
     };
+};
+
+&pio {
+	vcc-pa-supply = <&reg_vcc_io>;
 };
