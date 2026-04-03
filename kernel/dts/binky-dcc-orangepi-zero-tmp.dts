@@ -1,0 +1,107 @@
+/dts-v1/;
+#include "allwinner/sun8i-h3.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/clock/sun8i-h3-ccu.h>
+#include <dt-bindings/reset/sun8i-h3-ccu.h>
+
+/ {
+    model = "BinkyDCC Orange Pi Zero v0.0.9";
+    compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h2-plus";
+
+    aliases {
+        serial0 = &uart0;
+        ethernet0 = &emac;
+    };
+
+    chosen {
+        stdout-path = "serial0:115200n8";
+    };
+
+    /* Fixed regulator for IO and Pin Controller power */
+    reg_vcc_io: vcc3v3 {
+        compatible = "regulator-fixed";
+        regulator-name = "vcc-io";
+        regulator-min-microvolt = <3300000>;
+        regulator-max-microvolt = <3300000>;
+        regulator-always-on;
+    };
+
+    cpus {
+        cpu@0 { clock-frequency = <480000000>; };
+        cpu@1 { clock-frequency = <480000000>; };
+        cpu@2 { clock-frequency = <480000000>; };
+        cpu@3 { clock-frequency = <480000000>; };
+    };
+};
+
+/* --- CPU & Clocks --- */
+&cpu0 {
+    device_type = "cpu";
+    cpu-supply = <&sy8106a>; /* Links to the label in r_i2c below */
+};
+
+&ccu {
+    status = "okay";
+};
+
+&osc24M {
+    status = "okay";
+};
+
+/* --- Networking & Peripherals --- */
+&uart0 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart0_pa_pins>;
+    status = "okay";
+};
+
+&emac {
+    phy-handle = <&int_mii_phy>;
+    phy-mode = "mii";
+    allwinner,leds-active-low;
+    status = "okay";
+};
+
+&spi1 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&spi1_pins>;
+
+    spidev@0 {
+        compatible = "rohm,dh2228fv";
+        reg = <0>;
+        spi-max-frequency = <10000000>;
+    };
+};
+
+/* --- Power & Pin Controllers --- */
+&pio {
+    vcc-pa-supply = <&reg_vcc_io>;
+};
+
+&r_pio {
+    vcc-pl-supply = <&reg_vcc_io>;
+    status = "okay";
+};
+
+/* 2. Try the regulator on I2C0 instead of R_I2C */
+&i2c0 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c0_pins>;
+
+    sy8106a: sy8106a@65 {
+        compatible = "silergy,sy8106a";
+        reg = <0x65>;
+        regulator-name = "vdd-cpux";
+        regulator-min-microvolt = <1000000>;
+        regulator-max-microvolt = <1400000>;
+        regulator-boot-on;
+        regulator-always-on;
+    };
+};
+
+/* 3. Disable the failing r_i2c for now */
+&r_i2c {
+    status = "disabled";
+};
