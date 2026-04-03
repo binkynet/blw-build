@@ -3,7 +3,7 @@
 #include "allwinner/sunxi-common-regulators.dtsi"
 
 / {
-    model = "BinkyDCC Orange Pi Zero";
+    model = "BinkyDCC Orange Pi Zero v0.0.1";
     compatible = "alwinner,sun8i-h2-plus";
 
     /* ... your aliases and chosen nodes ... */
