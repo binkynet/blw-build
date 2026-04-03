@@ -1,43 +1,28 @@
 /dts-v1/;
-#include "sun8i-h3.dtsi"       // This provides the CPU frequencies and EMAC/SPI/UART definitions
-#include "sunxi-common-regulators.dtsi"
+#include "allwinner/sun8i-h3.dtsi"       // This provides the CPU frequencies and EMAC/SPI/UART definitions
+#include "allwinner/sunxi-common-regulators.dtsi"
 
 / {
     model = "BinkyDCC Orange Pi Zero";
     compatible = "alwinner,sun8i-h2-plus";
 
-    aliases {
-        serial0 = &uart0;
-        ethernet0 = &emac;
-    };
-
-    chosen {
-        stdout-path = "serial0:115200n8";
-    };
+    /* ... your aliases and chosen nodes ... */
 };
 
-/* --- UART0 for Debug --- */
+/* --- UART0 --- */
 &uart0 {
     pinctrl-names = "default";
     pinctrl-0 = <&uart0_pa_pins>;
     status = "okay";
 };
 
-/* --- Ethernet (eth0) --- */
+/* --- Ethernet --- */
 &emac {
+    /* We use the label 'int_mii_phy' which is already defined in the dtsi */
     phy-handle = <&int_mii_phy>;
     phy-mode = "mii";
     allwinner,leds-active-low;
     status = "okay";
-};
-
-&mdio {
-    int_mii_phy: ethernet-phy@1 {
-        compatible = "ethernet-phy-ieee802.3-c22";
-        reg = <1>;
-        clocks = <&ccu CLK_BUS_EPHY>;
-        resets = <&ccu RST_BUS_EPHY>;
-    };
 };
 
 /* --- SPI1 --- */
@@ -45,5 +30,4 @@
     status = "okay";
     pinctrl-names = "default";
     pinctrl-0 = <&spi1_pins>;
-    /* Add your SPI devices here (e.g. spidev) */
 };
