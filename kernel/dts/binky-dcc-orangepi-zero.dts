@@ -64,3 +64,15 @@
 &pio {
 	vcc-pa-supply = <&reg_vcc_io>;
 };
+
+&ccu {
+    status = "okay";
+};
+
+&osc24M {
+    status = "okay";
+};
+
+&cpu0 {
+    clocks = <&ccu CLK_CPUX>;
+};
