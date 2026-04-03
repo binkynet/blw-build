@@ -42,7 +42,7 @@ $(ARMBIANDIR):
 $(UROOT):
 	GOPATH=$(BUILDDIR) go get github.com/u-root/u-root
 
-$(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config
+$(DEBS): $(ARMBIANDIR) $(ROOTDIR)/kernel/config/sun8i.config Makefile
 	# Prepare custom DTS
 	mkdir -p $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
 	cp $(ROOTDIR)/kernel/dts/binky-dcc-orangepi-zero.* $(ARMBIANDIR)/userpatches/kernel/$(KERNELFAMILY)-$(KERNELBRANCH)/
