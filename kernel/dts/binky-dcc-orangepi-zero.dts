@@ -6,7 +6,7 @@
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.7";
-    compatible = "allwinner,sun8i-h2-plus";
+    compatible = "allwinner,sun8i-h2-plus", "xunlong,orangepi-zero";
 
     aliases {
         serial0 = &uart0;
@@ -84,8 +84,12 @@
     status = "okay";
 };
 
+/* 2. Try the regulator on I2C0 instead of R_I2C */
 &i2c0 {
     status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c0_pins>;
+
     sy8106a: sy8106a@65 {
         compatible = "silergy,sy8106a";
         reg = <0x65>;
@@ -97,7 +101,7 @@
     };
 };
 
-/* Disable r_i2c for this test to avoid conflicts */
+/* 3. Disable the failing r_i2c for now */
 &r_i2c {
     status = "disabled";
 };
