@@ -16,6 +16,14 @@
     chosen {
         stdout-path = "serial0:115200n8";
     };
+
+	reg_vcc_io: vcc3v3 {  /* <--- 'reg_vcc_io:' is the magic label here */
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-io";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+	};
 };
 
 /* Ensure the CPU nodes from the dtsi are activated */
