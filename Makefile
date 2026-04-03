@@ -2,7 +2,7 @@ ROOTDIR := $(shell pwd)
 BUILDDIR := $(ROOTDIR)/.build
 KERNELDIR := $(BUILDDIR)/kernel
 
-KERNELVERSION := v6.18.21
+KERNELVERSION := 5.4.69 # v6.18.21
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
 DTBIMAGE := $(OUTPUTDIR)/sun8i-h2-plus-custom.dtb
