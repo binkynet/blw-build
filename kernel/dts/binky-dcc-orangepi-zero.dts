@@ -87,6 +87,18 @@
 /* 2. Try the regulator on I2C0 instead of R_I2C */
 &i2c0 {
     status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c0_pins>;
+
+    sy8106a: sy8106a@65 {
+        compatible = "silergy,sy8106a";
+        reg = <0x65>;
+        regulator-name = "vdd-cpux";
+        regulator-min-microvolt = <1000000>;
+        regulator-max-microvolt = <1400000>;
+        regulator-boot-on;
+        regulator-always-on;
+    };
 };
 
 /* 3. Disable the failing r_i2c for now */
