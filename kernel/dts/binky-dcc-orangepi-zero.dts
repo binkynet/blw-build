@@ -89,7 +89,13 @@
         regulator-ramp-delay = <200>;
         regulator-boot-on;
         regulator-always-on;
-        /* H3 CPU voltage selection is usually on PL6 */
+
+        /* This GPIO is mandatory for the H3/H2+ Orange Pi Zero hardware */
         fsl,vsel-gpio = <&r_pio 0 6 GPIO_ACTIVE_HIGH>;
     };
+};
+
+/* Ensure the R-PIO controller is active to handle the vsel-gpio above */
+&r_pio {
+    status = "okay";
 };
