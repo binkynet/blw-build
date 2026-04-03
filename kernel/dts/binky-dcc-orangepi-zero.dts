@@ -1,6 +1,8 @@
 /dts-v1/;
 #include "allwinner/sun8i-h3.dtsi"
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/clock/sun8i-h3-ccu.h>
+#include <dt-bindings/reset/sun8i-h3-ccu.h>
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.2";
@@ -14,6 +16,12 @@
     chosen {
         stdout-path = "serial0:115200n8";
     };
+};
+
+/* Ensure the CPU nodes from the dtsi are activated */
+&cpu0 {
+    /* The include should provide this, but let's see if the log changes */
+    device_type = "cpu";
 };
 
 &uart0 {
