@@ -5,7 +5,7 @@
 #include <dt-bindings/reset/sun8i-h3-ccu.h>
 
 / {
-    model = "BinkyDCC Orange Pi Zero v0.0.4";
+    model = "BinkyDCC Orange Pi Zero v0.0.5";
     /* compatible = "allwinner,sun8i-h2-plus", "allwinner,sun8i-h3"; */
     compatible = "allwinner,sun8i-h3";
 
@@ -75,4 +75,18 @@
 
 &cpu0 {
     clocks = <&ccu CLK_CPUX>;
+};
+
+&r_i2c {
+	status = "okay";
+
+	regulator@65 {
+		compatible = "silergy,sy8106a";
+		reg = <0x65>;
+		regulator-name = "vdd-cpux";
+		regulator-min-microvolt = <1000000>;
+		regulator-max-microvolt = <1400000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
 };
