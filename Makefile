@@ -17,14 +17,18 @@ all: $(TGZFILE)
 clean:
 	sudo rm -Rf $(BUILDDIR)
 
+bootstrap:
+	sudo apt update
+	sudo apt install gcc-arm-linux-gnueabihf build-essential bison flex libssl-dev bc
+
 $(KERNELDIR):
 	git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git $(KERNELDIR)
 
 compile: $(KERNELDIR)
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(KERNELDIR)/.config
 	cp $(ROOTDIR)/kernel/dts/binky-dcc-orangepi-zero.dts $(KERNELDIR)/arch/arm/boot/dts/sun8i-h2-plus-custom.dts
-	cd $(KERNELDIR) ; ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make oldconfig
-	cd $(KERNELDIR) ; ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make -j$(nproc) zImage dtbs modules
+	cd $(KERNELDIR) ; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- oldconfig
+	cd $(KERNELDIR) ; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc) zImage dtbs modules
 
 $(KERNELIMAGE): compile
 	cp $(KERNELDIR)/arch/arm/boot/zImage $(KERNELIMAGE)
