@@ -5,7 +5,7 @@ KERNELDIR := $(ARMBIANDIR)/cache/sources/linux-kernel-worktree/6.12__sunxi__armh
 
 KERNELFAMILY := sunxi
 KERNELBRANCH := current
-KERNELVERSION := 6.12.79
+KERNELVERSION := 6.12.80
 ARMBIAN_COMMIT := v26.2.1
 ARMBIAN_BOARD := orangepizero
 ARMBIAN_BRANCH := current
