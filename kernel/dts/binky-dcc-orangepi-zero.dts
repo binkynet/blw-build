@@ -6,7 +6,7 @@
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.4";
-    compatible = "allwinner,sun8i-h2-plus", "allwinner,sun8i-h3";
+    compatible = "allwinner,sun8i-h2-plus",   "allwinner,sun8i-h3";
 
     aliases {
         serial0 = &uart0;
