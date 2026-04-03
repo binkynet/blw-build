@@ -6,7 +6,7 @@
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.7";
-    compatible = "allwinner,sun8i-h3";
+    compatible = "xunlong,orangepi-zero", "allwinner,sun8i-h2-plus";
 
     aliases {
         serial0 = &uart0;
@@ -24,6 +24,12 @@
         regulator-min-microvolt = <3300000>;
         regulator-max-microvolt = <3300000>;
         regulator-always-on;
+    };
+
+    cpus {
+        cpu@0 {
+            clock-frequency = <480000000>;
+        };
     };
 };
 
@@ -78,18 +84,20 @@
 };
 
 &r_i2c {
+    pinctrl-names = "default";
+    pinctrl-0 = <&r_i2c_pins>;
     status = "okay";
 
-    /* Added the 'sy8106a:' label here so cpu0 can find it */
     sy8106a: sy8106a@65 {
         compatible = "silergy,sy8106a";
         reg = <0x65>;
         regulator-name = "vdd-cpux";
+        /* Tighten the range to exactly what the chip expects */
         regulator-min-microvolt = <1000000>;
         regulator-max-microvolt = <1400000>;
-        regulator-ramp-delay = <200>;
         regulator-boot-on;
         regulator-always-on;
+        /* Some DTs use 'fsl,vsel-gpios' (plural) - let's provide the standard one */
         fsl,vsel-gpio = <&r_pio 0 6 GPIO_ACTIVE_HIGH>;
     };
 };
