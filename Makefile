@@ -2,6 +2,7 @@ ROOTDIR := $(shell pwd)
 BUILDDIR := $(ROOTDIR)/.build
 KERNELDIR := $(BUILDDIR)/kernel
 
+KERNELVERSION := v6.18.21
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
 DTBIMAGE := $(OUTPUTDIR)/binky-dcc-orangepi-zero.dtb
@@ -22,7 +23,7 @@ bootstrap:
 	sudo apt install gcc-arm-linux-gnueabihf build-essential bison flex libssl-dev bc
 
 $(KERNELDIR):
-	git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git $(KERNELDIR)
+	git clone --branch $(KERNELVERSION) --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git $(KERNELDIR)
 
 compile: $(KERNELDIR)
 	cp $(ROOTDIR)/kernel/config/sun8i.config $(KERNELDIR)/.config
