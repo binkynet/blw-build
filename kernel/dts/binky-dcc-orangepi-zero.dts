@@ -1,29 +1,18 @@
 /dts-v1/;
 #include "allwinner/sun8i-h3.dtsi"
 #include <dt-bindings/gpio/gpio.h>
-#include <dt-bindings/input/input.h>
 
 / {
     model = "BinkyDCC Orange Pi Zero v0.0.2";
-    compatible = "allwinner,sun8i-h2-plus";
+    compatible = "allwinner,sun8i-h2-plus", "allwinner,sun8i-h3";
 
     aliases {
         serial0 = &uart0;
         ethernet0 = &emac;
-        spi1 = &spi1;
     };
 
     chosen {
         stdout-path = "serial0:115200n8";
-    };
-
-    /* This provides the 3.3V power needed for pins/ethernet */
-    reg_vcc_io: vcc3v3 {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc-io";
-        regulator-min-microvolt = <3300000>;
-        regulator-max-microvolt = <3300000>;
-        regulator-always-on;
     };
 };
 
@@ -34,21 +23,13 @@
 };
 
 &emac {
+    /* * Reference the label already defined in sunxi-h3-h5.dtsi.
+     * Do NOT create a new 'int_mii_phy' label in this file.
+     */
     phy-handle = <&int_mii_phy>;
     phy-mode = "mii";
     allwinner,leds-active-low;
     status = "okay";
-};
-
-/* The internal PHY needs to be enabled here */
-&mdio {
-    status = "okay";
-    int_mii_phy: ethernet-phy@1 {
-        compatible = "ethernet-phy-ieee802.3-c22";
-        reg = <1>;
-        clocks = <&ccu 40>; /* CLK_BUS_EPHY */
-        resets = <&ccu 22>; /* RST_BUS_EPHY */
-    };
 };
 
 &spi1 {
