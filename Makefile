@@ -22,7 +22,7 @@ BNLOCALWORKER := $(ROOTDIR)/../LocalWorker/bin/linux/arm/bnLocalWorker
 
 OUTPUTDIR := $(ROOTDIR)/output
 KERNELIMAGE := $(OUTPUTDIR)/zImage
-DTBIMAGE := $(OUTPUTDIR)/$(KERNELFAMILY)-$(ARMBIAN_BOARD).dtb
+DTBIMAGE := $(OUTPUTDIR)/binky-dcc-orangepi-zero.dtb
 BOOTSCR := $(OUTPUTDIR)/boot.scr.uimg
 BOOTDCCSCR := $(OUTPUTDIR)/boot-dcc.scr.uimg
 OUTPUTIMAGES := $(KERNELIMAGE) $(DTBIMAGE) $(BOOTSCR) $(BOOTDCCSCR)
@@ -62,7 +62,7 @@ $(KERNELIMAGE): $(DEBS)
 	mkdir -p $(OUTPUTDIR)
 	cp $(BUILDDIR)/unpacked/image/boot/vmlinuz-$(KERNELVERSION)-$(KERNELBRANCH)-sunxi $(KERNELIMAGE)
 
-$(DTBIMAGE): $(ROOTDIR)/kernel/dts/sun8i-h2-plus-orangepi-zero.dts
+$(DTBIMAGE): $(DEBS)
 	rm -Rf $(BUILDDIR)/unpacked/dtb
 	mkdir -p $(BUILDDIR)/unpacked/dtb
 	dpkg-deb -R $(DTBDEB) $(BUILDDIR)/unpacked/dtb
